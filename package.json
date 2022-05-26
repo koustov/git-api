@@ -1,0 +1,23 @@
+{
+  "name": "git-repo-api",
+  "version": "0.0.11",
+  "description": "A simple API interface for retriving git telemetry",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.cm/koustov/git-api.git"
+  },
+  "author": "",
+  "type": "module",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/koustov/git-api/issues"
+  },
+  "homepage": "https://github.com/koustov/git-api#readme",
+  "dependencies": {
+    "node-fetch": "^3.2.4"
+  }
+}
