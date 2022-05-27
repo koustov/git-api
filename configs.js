@@ -14,7 +14,7 @@ export const Configs = {
 
   // Inivitations
   all_invitations: {
-    url: "/repos/{owner}/{repo}/invitations",
+    url: "repos/{owner}/{repo}/invitations",
     all_pages: true,
   },
 

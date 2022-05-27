@@ -1,29 +1,46 @@
 import { Configs } from "./configs.js";
-import fetch from "node-fetch";
+import axios from "axios";
 
-export const API = class GitAPI {
+export const GitAPI = class API {
   #_accessToken = "";
   #_user = "";
   #_repo = "";
+
   constructor(accessToken, user, repo) {
     this.#_accessToken = accessToken;
     this.#_user = user;
     this.#_repo = repo;
   }
 
+  set accessToken(value) {
+    this.#_accessToken = value;
+  }
+
+  set user(value) {
+    this.#_user = value;
+  }
+
+  set repo(value) {
+    this.#_repo = value;
+  }
+
   request(config, page_number, user, repo, accessToken) {
-    // console.log("xxxxxxxxxxxxxx");
-    // console.log(user, repo, accessToken);
     const options = {
       method: "GET",
       // 'username': data.login,
       headers: {
         Accept: "application/vnd.github.v3+json",
         // "user-agent": `${user || this.#_user}`,
-        "User-Agent": "request",
-        authorization: `token ${accessToken || this.#_accessToken}`,
+        // "User-Agent": "request",
+        // authorization: `token ${accessToken || this.#_accessToken}`,
       },
     };
+
+    if (accessToken) {
+      options.headers["authorization"] = `token ${
+        accessToken || this.#_accessToken
+      }`;
+    }
 
     let final_url = config.url
       .replace("{owner}", user || this.#_user)
@@ -35,16 +52,22 @@ export const API = class GitAPI {
 
     // console.log(`Requested URL: ${final_url}`);
 
-    return fetch(`https://api.github.com/${final_url}`, options).then((res) => {
-      return res.json().then((r) => {
-        const d = config.node ? r[config.node] : r;
+    return axios
+      .get(`https://api.github.com/${final_url}`, options)
+      .then((response) => {
+        const res = response.data;
+
+        const d = config.node ? res[config.node] : res;
         if (config.formatter) {
           return config.formatter(d);
         } else {
           return d;
         }
+      })
+      .catch((err) => {
+        console.error(err);
+        return 0;
       });
-    });
   }
 
   get_all_pages = (config) => {
@@ -94,32 +117,89 @@ export const API = class GitAPI {
     return this.get_data(config);
   }
 
-  get(type) {
+  // Generic get
+  get = (type) => {
     return this.request_proxy(Configs[type]);
-  }
+  };
 
   // Branch
-  get_all_branches() {
+  get_all_branches = () => {
     return this.request_proxy(Configs.all_branches);
-  }
+  };
 
   // Collaborators
-  get_all_collaborators() {
+  get_all_collaborators = () => {
     return this.request_proxy(Configs.all_collaborators);
-  }
+  };
 
   // Invitations
-  get_all_invitations() {
+  get_all_invitations = () => {
     return this.request_proxy(Configs.all_invitations);
-  }
+  };
 
   // Commits
-  get_all_commits() {
+  get_all_commits = () => {
     return this.request_proxy(Configs.all_commits);
-  }
+  };
+
+  get_last_year_commits = () => {
+    return this.request_proxy(Configs.last_year_commits);
+  };
 
   // Issues
-  get_all_issues() {
+  get_all_issues = () => {
     return this.request_proxy(Configs.all_issues);
-  }
+  };
+
+  // Assignees
+  get_all_assignees = () => {
+    return this.request_proxy(Configs.all_assignees);
+  };
+
+  // Labels
+  get_all_labels = () => {
+    return this.request_proxy(Configs.all_labels);
+  };
+
+  // Activities
+  get_weekly_commit = () => {
+    return this.request_proxy(Configs.weekly_commits);
+  };
+
+  get_weekly_commit_count = () => {
+    return this.request_proxy(Configs.weekly_commits_count);
+  };
+
+  get_hourly_commits = () => {
+    return this.request_proxy(Configs.hourly_commits);
+  };
+
+  // Pulls
+  get_all_pulls_open = () => {
+    return this.request_proxy(Configs.all_pulls_open);
+  };
+
+  get_all_pulls_closed = () => {
+    return this.request_proxy(Configs.all_pulls_closed);
+  };
+
+  // Star Gazers
+  get_all_star_gazers = () => {
+    return this.request_proxy(Configs.star_gazers);
+  };
+
+  // Collaborators
+  get_all_collaborators = () => {
+    return this.request_proxy(Configs.all_collaborators);
+  };
+
+  // Milestones
+  get_all_milestones = () => {
+    return this.request_proxy(Configs.all_milestones);
+  };
+
+  // Forks
+  get_all_forks = () => {
+    return this.request_proxy(Configs.all_forks);
+  };
 };

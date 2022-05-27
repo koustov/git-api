@@ -1,12 +1,20 @@
-import { API } from "../index.js";
+import { GitAPI } from "../index.js";
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
-const api = new API(
+// const api = new GitAPI();
+// api.accessToken = process.env.PERSONAL_ACCESS_TOKEN;
+// api.user = process.env.USER;
+// api.repo = process.env.REPO;
+
+// OR
+
+const api = new GitAPI(
   process.env.PERSONAL_ACCESS_TOKEN,
   process.env.USER,
   process.env.REPO
 );
+
 api.get_all_branches().then((res) => {
   console.log(`Branch count: ${res.length}`);
 });

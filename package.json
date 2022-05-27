@@ -1,6 +1,6 @@
 {
   "name": "git-repo-api",
-  "version": "0.0.11",
+  "version": "0.0.14",
   "description": "A simple API interface for retriving git telemetry",
   "main": "index.js",
   "scripts": {
@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/koustov/git-api#readme",
   "dependencies": {
-    "node-fetch": "^3.2.4"
+    "axios": "^0.27.2"
   }
 }
