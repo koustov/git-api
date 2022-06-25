@@ -1,5 +1,6 @@
 import { Configs } from "./configs.js";
 import axios from "axios";
+import create_base from "./api_base.js";
 
 export const GitAPI = class API {
   #_accessToken = "";
@@ -26,7 +27,7 @@ export const GitAPI = class API {
 
   request(config, page_number, user, repo, accessToken) {
     const options = {
-      method: "GET",
+      method: 'GET',
       // 'username': data.login,
       headers: {
         Accept: "application/vnd.github.v3+json",
@@ -37,9 +38,8 @@ export const GitAPI = class API {
     };
 
     if (accessToken) {
-      options.headers["authorization"] = `token ${
-        accessToken || this.#_accessToken
-      }`;
+      options.headers["authorization"] = `token ${accessToken || this.#_accessToken
+        }`;
     }
 
     let final_url = config.url
@@ -70,6 +70,39 @@ export const GitAPI = class API {
       });
   }
 
+
+  post_req(name,accessToken,user) {
+    const config = {
+      method: 'post',
+      url: 'https://api.github.com/user/repos',
+      data: {
+        "name": name,
+        "private": false
+      }
+    };
+    const req = create_base({
+      accessToken: accessToken || this.#_accessToken,
+      username: user || this.#_user
+    })
+    return req(config);
+
+  }
+
+  //create branch
+  create_repo = (config) => {
+     
+    const req_method = this.post_req;
+    return new Promise(async function (resolve, reject) {
+      try {
+        const result = await req_method(config.repo_name,config.accessToken,config.user);
+        resolve(result);
+      } catch (e) {
+        reject(e);
+      }
+     
+    })
+  }
+
   get_all_pages = (config) => {
     const req_method = this.request;
     const req_access_token = this.#_accessToken;
@@ -86,7 +119,8 @@ export const GitAPI = class API {
           current_page_number,
           req_user,
           req_repo,
-          req_access_token
+          req_access_token,
+
         );
         const found_result = res.length > 0;
         // console.log(res.length);

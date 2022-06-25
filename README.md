@@ -60,6 +60,7 @@
 | all_collaborators    | List collaborator  details                        | `get_all_collaborators()`   |
 | all_milestones       | List milestone details                            | `get_all_milestones()`      |
 | all_forks            | List fork details                                 | `get_all_forks()`           |
+| create_repo| Creates new repo | `create_repo()`
 
 
 **Note: Refer `https://docs.github.com/en/rest/` for full list of APIs

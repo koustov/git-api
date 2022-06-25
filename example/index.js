@@ -8,7 +8,6 @@ dotenv.config({ path: ".env" });
 // api.repo = process.env.REPO;
 
 // OR
-
 const api = new GitAPI(
   process.env.PERSONAL_ACCESS_TOKEN,
   process.env.USER,
@@ -17,6 +16,14 @@ const api = new GitAPI(
 
 api.get_all_branches().then((res) => {
   console.log(`Branch count: ${res.length}`);
+});
+
+api.create_repo({ repo_name: "tester", private: false, accessToken: process.env.PERSONAL_ACCESS_TOKEN, user: process.env.USER })
+.then((res) => {
+  console.log(res);
+ })
+.catch(e => {
+  console.log(e)
 });
 
 api.get_all_collaborators().then((res) => {
