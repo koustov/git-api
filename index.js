@@ -1,6 +1,6 @@
 import { Configs } from "./configs.js";
 import axios from "axios";
-import create_base from "./api_base.js";
+import {api_url, create_base, request_handler} from "./api_base.js";
 
 export const GitAPI = class API {
   #_accessToken = "";
@@ -71,30 +71,64 @@ export const GitAPI = class API {
   }
 
 
-  post_req(name,accessToken,user) {
-    const config = {
-      method: 'post',
-      url: 'https://api.github.com/user/repos',
-      data: {
-        "name": name,
-        "private": false
-      }
-    };
-    const req = create_base({
-      accessToken: accessToken || this.#_accessToken,
-      username: user || this.#_user
-    })
-    return req(config);
+  // post_req(accessToken,user,data,url) {
+  //   console.log(data)
+  //   const config = {
+  //     method: 'post',
+  //     url: url,
+  //     data:data,
+  //   };
+  //   const req = create_base({
+  //     accessToken: accessToken || this.#_accessToken,
+  //     username: user || this.#_user
+  //   })
+  //   return req(config);
 
+  // }
+
+
+
+  create_fork =(config) =>{
+    const req_method = request_handler;
+    const data = {
+      owner: 'OWNER',
+      repo: 'REPO'
+    }
+ 
+    return new Promise(async function(resolve,reject){
+      try{
+        const result = await req_method(
+          `${api_url.base}${api_url.fork_repo}${config.owner}/${config.repo_name}/forks`,
+          'POST',
+          config.accessToken,
+          config.owner,
+          data,
+          );
+        resolve(result);
+      }catch(e){
+        reject(e);
+      }
+    })
   }
 
-  //create branch
+  // create repo
   create_repo = (config) => {
-     
-    const req_method = this.post_req;
+  
+    const req_method = request_handler;
+    const data =  {
+        "name": config.repo_name,
+        "private": false
+      }
+
     return new Promise(async function (resolve, reject) {
       try {
-        const result = await req_method(config.repo_name,config.accessToken,config.user);
+        const result = await req_method(
+          `${api_url.base}${api_url.create_repo}`,
+          'POST',
+          config.accessToken,
+          config.owner,
+          data,
+          );
         resolve(result);
       } catch (e) {
         reject(e);
