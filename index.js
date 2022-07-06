@@ -1,6 +1,6 @@
 import { Configs } from "./configs.js";
 import axios from "axios";
-import {api_url, create_base, request_handler} from "./api_base.js";
+import { api_url, create_base, request_handler } from "./api_base.js";
 
 export const GitAPI = class API {
   #_accessToken = "";
@@ -71,41 +71,55 @@ export const GitAPI = class API {
   }
 
 
-  // post_req(accessToken,user,data,url) {
-  //   console.log(data)
-  //   const config = {
-  //     method: 'post',
-  //     url: url,
-  //     data:data,
-  //   };
-  //   const req = create_base({
-  //     accessToken: accessToken || this.#_accessToken,
-  //     username: user || this.#_user
-  //   })
-  //   return req(config);
-
-  // }
-
-
-
-  create_fork =(config) =>{
+  create = async (config, type) => {
     const req_method = request_handler;
-    const data = {
-      owner: 'OWNER',
-      repo: 'REPO'
+    let data;
+    let url;
+    switch (type) {
+      case 'create_repo':
+        data = {
+          "name": config.repo_name,
+          "private": false
+        };
+        url = Configs[type].url;
+        break;
+      case 'create_fork':
+        data = Configs[type].data;
+        const inter = Configs[type].url.replace(`{owner}`, config.owner);
+        url = inter.replace(`{repo_name}`, config.repo_name);
+        break;
     }
- 
-    return new Promise(async function(resolve,reject){
-      try{
+
+    try {
+      const result = await req_method(
+        url,
+        'POST',
+        config.accessToken,
+        config.owner,
+        data
+      );
+      return result;
+    } catch (e) {
+      return e;
+    }
+  }
+
+  create_fork = (config) => {
+    const req_method = request_handler;
+   const data = Configs['create_fork'].data;
+  const inter = Configs['create_fork'].url.replace(`{owner}`, config.owner);
+  const url = inter.replace(`{repo_name}`, config.repo_name);
+    return new Promise(async function (resolve, reject) {
+      try {
         const result = await req_method(
-          `${api_url.base}${api_url.fork_repo}${config.owner}/${config.repo_name}/forks`,
+          url,
           'POST',
           config.accessToken,
           config.owner,
           data,
-          );
+        );
         resolve(result);
-      }catch(e){
+      } catch (e) {
         reject(e);
       }
     })
@@ -113,27 +127,27 @@ export const GitAPI = class API {
 
   // create repo
   create_repo = (config) => {
-  
-    const req_method = request_handler;
-    const data =  {
-        "name": config.repo_name,
-        "private": false
-      }
 
+    const req_method = request_handler;
+    const data = {
+      "name": config.repo_name,
+      "private": false
+    }
+    const url = Configs[type].url;
     return new Promise(async function (resolve, reject) {
       try {
         const result = await req_method(
-          `${api_url.base}${api_url.create_repo}`,
+          url,
           'POST',
           config.accessToken,
           config.owner,
           data,
-          );
+        );
         resolve(result);
       } catch (e) {
         reject(e);
       }
-     
+
     })
   }
 
