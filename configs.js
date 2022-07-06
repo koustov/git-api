@@ -135,4 +135,18 @@ export const Configs = {
   all_forks: { url: "repos/{owner}/{repo}/forks", all_pages: true },
 
   // contributor_commit: "repos/{owner}/{repo}/stats/contributors",
+
+  //create repo
+  create_repo: {
+    url: `https://api.github.com/user/repos`
+  },
+
+  //fork repo
+  create_fork: {
+    url:`https://api.github.com/repos/{owner}/{repo_name}/forks`,
+    data:{
+      owner: 'OWNER',
+      repo: 'REPO'
+    },
+  }
 };

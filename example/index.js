@@ -8,15 +8,44 @@ dotenv.config({ path: ".env" });
 // api.repo = process.env.REPO;
 
 // OR
-
 const api = new GitAPI(
   process.env.PERSONAL_ACCESS_TOKEN,
   process.env.USER,
   process.env.REPO
 );
 
+api.create({ repo_name: "tester1", private: false, accessToken: process.env.PERSONAL_ACCESS_TOKEN, user: process.env.USER },'create_repo')
+.then((res)=>{
+  console.log(res);
+}).catch(e=>{
+  console.log(e);
+})
+
+api.create({ repo_name: "css-builder",accessToken: process.env.PERSONAL_ACCESS_TOKEN, owner: 'koustov' },'create_fork')
+.then((res)=>{
+  console.log(res);
+}).catch(e=>{
+  console.log(e);
+})
+
 api.get_all_branches().then((res) => {
   console.log(`Branch count: ${res.length}`);
+});
+
+api.create_fork({owner:"koustov",repo_name:"css-builder",accessToken: process.env.PERSONAL_ACCESS_TOKEN})
+.then((res)=>{
+  console.log(res)
+})
+.catch((e)=>{
+  console.log(e);
+})
+
+api.create_repo({ repo_name: "tester1", private: false, accessToken: process.env.PERSONAL_ACCESS_TOKEN, user: process.env.USER })
+.then((res) => {
+  console.log(res);
+ })
+.catch(e => {
+  console.log(e)
 });
 
 api.get_all_collaborators().then((res) => {

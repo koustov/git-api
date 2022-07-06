@@ -1,5 +1,6 @@
 import { Configs } from "./configs.js";
 import axios from "axios";
+import { api_url, create_base, request_handler } from "./api_base.js";
 
 export const GitAPI = class API {
   #_accessToken = "";
@@ -26,7 +27,7 @@ export const GitAPI = class API {
 
   request(config, page_number, user, repo, accessToken) {
     const options = {
-      method: "GET",
+      method: 'GET',
       // 'username': data.login,
       headers: {
         Accept: "application/vnd.github.v3+json",
@@ -37,9 +38,8 @@ export const GitAPI = class API {
     };
 
     if (accessToken) {
-      options.headers["authorization"] = `token ${
-        accessToken || this.#_accessToken
-      }`;
+      options.headers["authorization"] = `token ${accessToken || this.#_accessToken
+        }`;
     }
 
     let final_url = config.url
@@ -70,6 +70,87 @@ export const GitAPI = class API {
       });
   }
 
+
+  create = async (config, type) => {
+    const req_method = request_handler;
+    let data;
+    let url;
+    switch (type) {
+      case 'create_repo':
+        data = {
+          "name": config.repo_name,
+          "private": false
+        };
+        url = Configs[type].url;
+        break;
+      case 'create_fork':
+        data = Configs[type].data;
+        const inter = Configs[type].url.replace(`{owner}`, config.owner);
+        url = inter.replace(`{repo_name}`, config.repo_name);
+        break;
+    }
+
+    try {
+      const result = await req_method(
+        url,
+        'POST',
+        config.accessToken,
+        config.owner,
+        data
+      );
+      return result;
+    } catch (e) {
+      return e;
+    }
+  }
+
+  create_fork = (config) => {
+    const req_method = request_handler;
+   const data = Configs['create_fork'].data;
+  const inter = Configs['create_fork'].url.replace(`{owner}`, config.owner);
+  const url = inter.replace(`{repo_name}`, config.repo_name);
+    return new Promise(async function (resolve, reject) {
+      try {
+        const result = await req_method(
+          url,
+          'POST',
+          config.accessToken,
+          config.owner,
+          data,
+        );
+        resolve(result);
+      } catch (e) {
+        reject(e);
+      }
+    })
+  }
+
+  // create repo
+  create_repo = (config) => {
+
+    const req_method = request_handler;
+    const data = {
+      "name": config.repo_name,
+      "private": false
+    }
+    const url = Configs[type].url;
+    return new Promise(async function (resolve, reject) {
+      try {
+        const result = await req_method(
+          url,
+          'POST',
+          config.accessToken,
+          config.owner,
+          data,
+        );
+        resolve(result);
+      } catch (e) {
+        reject(e);
+      }
+
+    })
+  }
+
   get_all_pages = (config) => {
     const req_method = this.request;
     const req_access_token = this.#_accessToken;
@@ -86,7 +167,8 @@ export const GitAPI = class API {
           current_page_number,
           req_user,
           req_repo,
-          req_access_token
+          req_access_token,
+
         );
         const found_result = res.length > 0;
         // console.log(res.length);
