@@ -1,0 +1,17 @@
+export const filter = (data, filter_str) => {
+    const res = [];
+  const all_filters = filter_str.split("|").map((af => {
+      const f_segs = af.split('=');
+      return {
+          name: f_segs[0],
+          value: f_segs[1]
+      }
+  }));
+
+  all_filters.forEach(f => {
+      if(f.name !=='sort') {
+          case 'startdate':
+
+      }
+  })
+};

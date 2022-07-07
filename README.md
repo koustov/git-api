@@ -41,25 +41,26 @@
     ```
 
 ### Options
-| Keys                 | Description                                       | Method Name                 |
-| -------------------- | ------------------------------------------------- | --------------------------- |
-| all_branches         | List all branch details for the given repo        | `get_all_branches()`        |
-| all_collaborators    | List all collaborators details for the given repo | `get_all_collaborators()`   |
-| all_invitations      | List all invitation details for the given repo    | `get_all_invitations()`     |
-| all_commits          | List all commit details for the given repo        | `get_all_commits()`         |
-| all_issues           | List all issue details for the given repo         | `get_all_issues()`          |
-| all_assignees        | List all assignee details for the given repo      | `get_all_assignees()`       |
-| all_labels           | List all label details for the given repo         | `get_all_labels()`          |
-| weekly_commits       | Gets weekly commit trend                          | `get_weekly_commit()`       |
-| weekly_commits_count | Gets weekly commit count                          | `get_weekly_commit_count()` |
-| hourly_commits       | Gets hourly commit trend                          | `get_hourly_commits()`      |
-| last_year_commits    | Gets last year commit trend grouped by weeks      | `get_last_year_commits()`   |
-| all_pulls_open       | List all open pull request details                | `get_all_pulls_open()`      |
-| all_pulls_closed     | List all closed pull request details              | `get_all_pulls_closed()`    |
-| star_gazers          | List star gazers details                          | `get_all_star_gazers()`     |
-| all_collaborators    | List collaborator  details                        | `get_all_collaborators()`   |
-| all_milestones       | List milestone details                            | `get_all_milestones()`      |
-| all_forks            | List fork details                                 | `get_all_forks()`           |
+| Keys                 | Description                                       | Method Name                 | Need Token? |
+| -------------------- | ------------------------------------------------- | --------------------------- | ----------- |
+| all_branches         | List all branch details for the given repo        | `get_all_branches()`        | NO          |
+| all_collaborators    | List all collaborators details for the given repo | `get_all_collaborators()`   | NO          |
+| all_invitations      | List all invitation details for the given repo    | `get_all_invitations()`     | NO          |
+| all_commits          | List all commit details for the given repo        | `get_all_commits()`         | NO          |
+| all_issues           | List all issue details for the given repo         | `get_all_issues()`          | NO          |
+| all_assignees        | List all assignee details for the given repo      | `get_all_assignees()`       | NO          |
+| all_labels           | List all label details for the given repo         | `get_all_labels()`          | NO          |
+| weekly_commits       | Gets weekly commit trend                          | `get_weekly_commit()`       | NO          |
+| weekly_commits_count | Gets weekly commit count                          | `get_weekly_commit_count()` | NO          |
+| hourly_commits       | Gets hourly commit trend                          | `get_hourly_commits()`      | NO          |
+| last_year_commits    | Gets last year commit trend grouped by weeks      | `get_last_year_commits()`   | NO          |
+| all_pulls_open       | List all open pull request details                | `get_all_pulls_open()`      | NO          |
+| all_pulls_closed     | List all closed pull request details              | `get_all_pulls_closed()`    | NO          |
+| star_gazers          | List star gazers details                          | `get_all_star_gazers()`     | NO          |
+| all_collaborators    | List collaborator  details                        | `get_all_collaborators()`   | `YES`       |
+| all_milestones       | List milestone details                            | `get_all_milestones()`      | NO          |
+| all_forks            | List fork details                                 | `get_all_forks()`           | NO          |
+| all_contributors     | List all contributors                             | `get_all_contributors()`    | No          |
 
 
 **Note: Refer `https://docs.github.com/en/rest/` for full list of APIs

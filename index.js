@@ -80,7 +80,6 @@ export const GitAPI = class API {
       let current_page_number = 1;
       const final_res = [];
       while (go_for_next_page) {
-        // console.log(`Retrieving result for page number ${current_page_number}`);
         const res = await req_method(
           config,
           current_page_number,
@@ -89,15 +88,10 @@ export const GitAPI = class API {
           req_access_token
         );
         const found_result = res.length > 0;
-        // console.log(res.length);
         if (found_result) {
-          // console.log("yyyyyyyyyyyyyyyyy");
-          // console.log(res.length);
-          // console.log(current_page_number);
           Array.prototype.push.apply(final_res, res);
           current_page_number = current_page_number + 1;
         } else {
-          // console.log("done");
           go_for_next_page = false;
           resolve(final_res);
         }
@@ -113,13 +107,14 @@ export const GitAPI = class API {
     }
   };
 
-  request_proxy(config) {
-    return this.get_data(config);
+  request_proxy(config, filters_str) {
+    return this.get_data(config, filters_str);
   }
 
   // Generic get
   get = (type) => {
-    return this.request_proxy(Configs[type]);
+    const segs = type.split(":");
+    return this.request_proxy(Configs[segs[0]], segs[1]);
   };
 
   // Branch
@@ -201,5 +196,10 @@ export const GitAPI = class API {
   // Forks
   get_all_forks = () => {
     return this.request_proxy(Configs.all_forks);
+  };
+
+  // Contributors
+  get_all_contributors = () => {
+    return this.request_proxy(Configs.all_contributors);
   };
 };

@@ -43,7 +43,8 @@ export const Configs = {
         data.forEach((r) =>
           res.push({
             name: unixToDate(r["0"]),
-            Commits: r["1"],
+            Added: r["1"],
+            Removed: r["2"],
           })
         );
       }
@@ -102,6 +103,7 @@ export const Configs = {
           res.push({
             name: unixToDate(r.week),
             Commits: r.total,
+            Days: r.days,
           })
         );
       }
@@ -134,5 +136,6 @@ export const Configs = {
   // Forks
   all_forks: { url: "repos/{owner}/{repo}/forks", all_pages: true },
 
-  // contributor_commit: "repos/{owner}/{repo}/stats/contributors",
+  // Contributors
+  all_contributors: { url: "repos/{owner}/{repo}/stats/contributors" },
 };

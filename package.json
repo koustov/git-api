@@ -1,6 +1,6 @@
 {
   "name": "git-repo-api",
-  "version": "0.0.14",
+  "version": "0.0.17",
   "description": "A simple API interface for retriving git telemetry",
   "main": "index.js",
   "scripts": {
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.cm/koustov/git-api.git"
+    "url": "git+https://github.cm/koustov/json-graphql-parser.git"
   },
   "author": "",
   "type": "module",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/koustov/git-api/issues"
+    "url": "https://github.com/koustov/json-graphql-parser/issues"
   },
-  "homepage": "https://github.com/koustov/git-api#readme",
+  "homepage": "https://github.com/koustov/json-graphql-parser#readme",
   "dependencies": {
     "axios": "^0.27.2"
   }
